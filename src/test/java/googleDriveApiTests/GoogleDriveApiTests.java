@@ -43,7 +43,6 @@ public class GoogleDriveApiTests extends BaseTest {
 
     @Test
     public void uploadNewFile() {
-        System.out.println(TOKEN);
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
@@ -52,6 +51,17 @@ public class GoogleDriveApiTests extends BaseTest {
                 when().
                 post("https://www.googleapis.com/drive/v3/files").
                 then().body("name", equalTo("MY name.txt")).and().
+                statusCode(200);
+    }
+
+    @Test
+    public void getList() {
+        given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                log().all().
+                when().
+                get("https://www.googleapis.com/drive/v3/files").then().
                 statusCode(200);
     }
 }
