@@ -1,6 +1,7 @@
 package parameters;
 
 import restClient.TestConfigData;
+
 import static restClient.TestConfigData.*;
 
 public class TokenParameters {

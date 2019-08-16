@@ -36,7 +36,9 @@ public class GoogleDriveApiTests extends BaseTest {
                 spec(RestAssuredSpecifications.spec()).
                 body(TokenParameters.getBody()).
                 when().
-                post("https://www.googleapis.com/oauth2/v4/token").jsonPath().getString("access_token");
+                post("https://www.googleapis.com/oauth2/v4/token").
+                jsonPath().
+                getString("access_token");
         System.out.println(responseBody);
         TOKEN = "Bearer " + responseBody;
     }
@@ -47,21 +49,147 @@ public class GoogleDriveApiTests extends BaseTest {
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
                 body("{\n" + "  \"name\": \"MY name.txt\"}").
-                log().all().
+                log().
+                all().
                 when().
                 post("https://www.googleapis.com/drive/v3/files").
-                then().body("name", equalTo("MY name.txt")).and().
+                then().
+                body("name", equalTo("MY name.txt")).
+                and().
                 statusCode(200);
     }
+
+    @Test
+    public void deleteFile() {
+        //create file
+        String fileId = given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                body("{\n" + "  \"name\": \"MY name.txt\"}").
+                log().
+                all().
+                when().
+                post("https://www.googleapis.com/drive/v3/files").
+                jsonPath().
+                getString("id");
+        //delete file
+        given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                log().
+                all().
+                when().
+                delete("https://www.googleapis.com/drive/v3/files/" + fileId).
+                then().
+                statusCode(204);
+    }
+
+    @Test
+    public void copyFile() {
+        //create file
+        String fileId = given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                body("{\n" + "  \"name\": \"MY name.txt\"}").
+                log().
+                all().
+                when().
+                post("https://www.googleapis.com/drive/v3/files").
+                jsonPath().
+                getString("id");
+        //copy file
+        given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                log().
+                all().
+                when().
+                post("https://www.googleapis.com/drive/v3/files/" + fileId + "/copy").
+                then().
+                body("name", equalTo("MY name.txt")).
+                and().
+                statusCode(200);
+    }
+
+    @Test
+    public void updateFile() {
+        //create file
+        String fileId = given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                body("{\n" + "  \"name\": \"MY name.txt\"}").
+                log().
+                all().
+                when().
+                post("https://www.googleapis.com/drive/v3/files").
+                jsonPath().
+                getString("id");
+        //update file
+        given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                log().
+                all().
+                when().
+                patch("https://www.googleapis.com/drive/v3/files/" + fileId).
+                then().
+                body("id", equalTo(fileId)).
+                and().
+                statusCode(200);
+    }
+
+
+    @Test
+    public void getFile() {
+        //create file
+        String fileId = given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                body("{\n" + "  \"name\": \"MY name.txt\"}").
+                log().
+                all().
+                when().
+                post("https://www.googleapis.com/drive/v3/files").
+                jsonPath().
+                getString("id");
+        //get file
+        given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                log().
+                all().
+                when().
+                get("https://www.googleapis.com/drive/v3/files/" + fileId).
+                then().
+                body("id", equalTo(fileId)).
+                and().
+                statusCode(200);
+    }
+
 
     @Test
     public void getList() {
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
-                log().all().
+                log().
+                all().
                 when().
-                get("https://www.googleapis.com/drive/v3/files").then().
+                get("https://www.googleapis.com/drive/v3/files").
+                then().
                 statusCode(200);
+    }
+
+    @Test
+    public void emptyTrash() {
+        given().
+                spec(RestAssuredSpecifications.spec().
+                        headers(UploadParameters.getHeaderParameters(TOKEN))).
+                log().
+                all().
+                when().
+                delete("https://www.googleapis.com/drive/v3/files/trash").
+                then().
+                statusCode(204);
     }
 }
