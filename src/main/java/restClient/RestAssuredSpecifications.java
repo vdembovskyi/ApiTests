@@ -7,23 +7,20 @@ import com.jayway.restassured.config.RestAssuredConfig;
 import com.jayway.restassured.internal.TestSpecificationImpl;
 import com.jayway.restassured.specification.RequestSpecification;
 
-import java.util.HashMap;
-
 import static com.jayway.restassured.config.HttpClientConfig.httpClientConfig;
 
 public class RestAssuredSpecifications {
 
-    public static RequestSpecification spec(HashMap<String, String> map) {
-        RestAssuredConfig restAssuredConfig = RestAssured.config().httpClient(httpClientConfig().setParam("CONNECTION_MANAGER_TIMEOUT", 10000));
-        RequestSpecification spec = new TestSpecificationImpl(
+    public static RequestSpecification spec() {
+        RestAssuredConfig restAssuredConfig = RestAssured.config().httpClient(httpClientConfig().setParam("CONNECTION_MANAGER_TIMEOUT", 300000));
+        RequestSpecification s = new TestSpecificationImpl(
                 new RequestSpecBuilder()
                         .setConfig(restAssuredConfig).
-                        addParams(map).
                         build(),
         new ResponseSpecBuilder()
                 .build()
         ).getRequestSpecification();
 
-        return spec;
+        return s;
     }
 }

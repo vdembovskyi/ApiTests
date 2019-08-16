@@ -13,9 +13,10 @@ import static com.jayway.restassured.RestAssured.given;
 public class GoogleDriveApiTests extends BaseTest {
 
     @Test
-    public void login() {
+    public void getAccessCode() {
         given().
-                spec(RestAssuredSpecifications.spec(LoginParameters.getHeaderParameters())).
+                spec(RestAssuredSpecifications.spec()).
+                parameters(LoginParameters.getHeaderParameters()).
                 log().
                 ifValidationFails().
                 when().
@@ -27,6 +28,7 @@ public class GoogleDriveApiTests extends BaseTest {
     @Test
     public void getToken() {
         String responseBody = given().
+                spec(RestAssuredSpecifications.spec()).
                 body(TokenParameters.getBody()).
                 when().
                 post("https://www.googleapis.com/oauth2/v4/token").jsonPath().getString("access_token");
@@ -37,11 +39,13 @@ public class GoogleDriveApiTests extends BaseTest {
     @Test
     public void uploadNewFile() {
         given().
-                spec(RestAssuredSpecifications.spec(UploadParameters.getHeaderParameters(TestConfigData.TOKEN))).
+                spec(RestAssuredSpecifications.spec().
+                        parameter("uploadType", "media").
+                        headers(UploadParameters.getHeaderParameters(TestConfigData.TOKEN))).
                 log().
                 ifValidationFails().
                 when().
-                post("https://www.googleapis.com/upload/drive/v3/files?uploadType=media").
+                post("https://www.googleapis.com/upload/drive/v3/files").
                 then().
                 statusCode(200);
     }
