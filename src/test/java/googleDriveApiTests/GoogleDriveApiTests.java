@@ -8,6 +8,7 @@ import parameters.UploadParameters;
 import restClient.RestAssuredSpecifications;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 
 public class GoogleDriveApiTests extends BaseTest {
@@ -28,6 +29,7 @@ public class GoogleDriveApiTests extends BaseTest {
                 then().
                 statusCode(200);
     }
+
     @BeforeSuite
     public void getToken() {
         String responseBody = given().
@@ -40,16 +42,16 @@ public class GoogleDriveApiTests extends BaseTest {
     }
 
     @Test
-    public void uploadNewFile(){
+    public void uploadNewFile() {
         System.out.println(TOKEN);
         given().
                 spec(RestAssuredSpecifications.spec().
-                        parameter("uploadType", "media").
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
+                body("{\n" + "  \"name\": \"MY name.txt\"}").
                 log().all().
                 when().
-                post("https://www.googleapis.com/upload/drive/v3/files").
-                then().
+                post("https://www.googleapis.com/drive/v3/files").
+                then().body("name", equalTo("MY name.txt")).and().
                 statusCode(200);
     }
 }
