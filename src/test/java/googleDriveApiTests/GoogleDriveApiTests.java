@@ -1,5 +1,6 @@
 package googleDriveApiTests;
 
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import parameters.AccessCodeParameters;
 import parameters.TokenParameters;
@@ -11,9 +12,11 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class GoogleDriveApiTests extends BaseTest {
 
+
     public static String TOKEN;
 
-    @Test
+
+    @BeforeSuite
     public void getAccessCode() {
         given().
                 spec(RestAssuredSpecifications.spec()).
@@ -25,8 +28,7 @@ public class GoogleDriveApiTests extends BaseTest {
                 then().
                 statusCode(200);
     }
-
-    @Test
+    @BeforeSuite
     public void getToken() {
         String responseBody = given().
                 spec(RestAssuredSpecifications.spec()).
@@ -39,6 +41,7 @@ public class GoogleDriveApiTests extends BaseTest {
 
     @Test
     public void uploadNewFile(){
+        System.out.println(TOKEN);
         given().
                 spec(RestAssuredSpecifications.spec().
                         parameter("uploadType", "media").

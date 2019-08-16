@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class UploadParameters {
     private static String contentType = "application/json";
-    private static String contentLength = "0";
+    private static int contentLength = 0;
 
     public static HashMap<String, String> getHeaderParameters(String token) {
         HashMap<String, String> headerParameters = new HashMap<String, String>();
@@ -18,7 +18,7 @@ public class UploadParameters {
         return contentType;
     }
 
-    public static String getContentLength() {
+    public static int getContentLength() {
         return contentLength;
     }
 }
