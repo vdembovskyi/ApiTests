@@ -10,7 +10,7 @@ public class UploadParameters {
         HashMap<String, String> headerParameters = new HashMap<String, String>();
         headerParameters.put("Content-type", contentType);
         headerParameters.put("Authorization", token);
-        headerParameters.put("Content-length", contentLength);
+        //headerParameters.put("Content-length", contentLength);
         return headerParameters;
     }
 

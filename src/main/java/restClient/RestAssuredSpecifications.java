@@ -13,13 +13,11 @@ public class RestAssuredSpecifications {
 
     public static RequestSpecification spec() {
         RestAssuredConfig restAssuredConfig = RestAssured.config().httpClient(httpClientConfig().setParam("CONNECTION_MANAGER_TIMEOUT", 300000));
-        RequestSpecification s = new TestSpecificationImpl(
-                new RequestSpecBuilder()
-                        .setConfig(restAssuredConfig).
-                        build(),
-        new ResponseSpecBuilder()
-                .build()
-        ).getRequestSpecification();
+        RequestSpecification s = new TestSpecificationImpl(new RequestSpecBuilder().
+                setConfig(restAssuredConfig).
+                build(), new ResponseSpecBuilder().
+                build()).
+                getRequestSpecification();
 
         return s;
     }
