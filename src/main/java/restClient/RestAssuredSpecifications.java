@@ -12,13 +12,20 @@ import static com.jayway.restassured.config.HttpClientConfig.httpClientConfig;
 public class RestAssuredSpecifications {
 
     public static RequestSpecification spec() {
-        RestAssuredConfig restAssuredConfig = RestAssured.config().httpClient(httpClientConfig().setParam("CONNECTION_MANAGER_TIMEOUT", 300000));
-        RequestSpecification s = new TestSpecificationImpl(new RequestSpecBuilder().
+
+
+        RestAssuredConfig restAssuredConfig = RestAssured.
+                config().
+                httpClient(httpClientConfig().
+                setParam("CONNECTION_MANAGER_TIMEOUT", 300000));
+
+
+        return new TestSpecificationImpl(new RequestSpecBuilder().
                 setConfig(restAssuredConfig).
                 build(), new ResponseSpecBuilder().
                 build()).
-                getRequestSpecification().log().all();
-
-        return s;
+                getRequestSpecification().
+                log().
+                all();
     }
 }

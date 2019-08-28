@@ -6,15 +6,12 @@ import parameters.AccessCodeParameters;
 import parameters.TokenParameters;
 import parameters.UploadParameters;
 import restClient.RestAssuredSpecifications;
+
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 
 public class GoogleDriveApiTests extends BaseTest {
-
-
-    public static String TOKEN;
-
 
     @BeforeSuite
     public void getAccessCode() {
@@ -42,6 +39,7 @@ public class GoogleDriveApiTests extends BaseTest {
 
     @Test
     public void uploadNewFile() {
+        String fileId = createFileAndGetId("MY name.txt");
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
@@ -56,15 +54,7 @@ public class GoogleDriveApiTests extends BaseTest {
 
     @Test
     public void deleteFile() {
-        //create file
-        String fileId = given().
-                spec(RestAssuredSpecifications.spec().
-                        headers(UploadParameters.getHeaderParameters(TOKEN))).
-                body("{\n" + "  \"name\": \"MY name.txt\"}").
-                when().
-                post().
-                jsonPath().
-                getString("id");
+        String fileId = createFileAndGetId("MY name.txt");
         //delete file
         given().
                 spec(RestAssuredSpecifications.spec().
@@ -77,15 +67,7 @@ public class GoogleDriveApiTests extends BaseTest {
 
     @Test
     public void copyFile() {
-        //create file
-        String fileId = given().
-                spec(RestAssuredSpecifications.spec().
-                        headers(UploadParameters.getHeaderParameters(TOKEN))).
-                body("{\n" + "  \"name\": \"MY name.txt\"}").
-                when().
-                post().
-                jsonPath().
-                getString("id");
+        String fileId = createFileAndGetId("MY name.txt");
         //copy file
         given().
                 spec(RestAssuredSpecifications.spec().
@@ -100,15 +82,7 @@ public class GoogleDriveApiTests extends BaseTest {
 
     @Test
     public void updateFile() {
-        //create file
-        String fileId = given().
-                spec(RestAssuredSpecifications.spec().
-                        headers(UploadParameters.getHeaderParameters(TOKEN))).
-                body("{\n" + "  \"name\": \"MY name.txt\"}").
-                when().
-                post().
-                jsonPath().
-                getString("id");
+        String fileId = createFileAndGetId("MY name.txt");
         //update file
         given().
                 spec(RestAssuredSpecifications.spec().
@@ -124,15 +98,7 @@ public class GoogleDriveApiTests extends BaseTest {
 
     @Test
     public void getFile() {
-        //create file
-        String fileId = given().
-                spec(RestAssuredSpecifications.spec().
-                        headers(UploadParameters.getHeaderParameters(TOKEN))).
-                body("{\n" + "  \"name\": \"MY name.txt\"}").
-                when().
-                post().
-                jsonPath().
-                getString("id");
+        String fileId = createFileAndGetId("MY name.txt");
         //get file
         given().
                 spec(RestAssuredSpecifications.spec().
