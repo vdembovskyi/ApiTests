@@ -6,7 +6,6 @@ import parameters.AccessCodeParameters;
 import parameters.TokenParameters;
 import parameters.UploadParameters;
 import restClient.RestAssuredSpecifications;
-
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
@@ -22,8 +21,6 @@ public class GoogleDriveApiTests extends BaseTest {
         given().
                 spec(RestAssuredSpecifications.spec()).
                 parameters(AccessCodeParameters.getHeaderParameters()).
-                log().
-                ifValidationFails().
                 when().
                 get("https://accounts.google.com/o/oauth2/v2/auth").
                 then().
@@ -49,10 +46,8 @@ public class GoogleDriveApiTests extends BaseTest {
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
                 body("{\n" + "  \"name\": \"MY name.txt\"}").
-                log().
-                all().
                 when().
-                post("https://www.googleapis.com/drive/v3/files").
+                post().
                 then().
                 body("name", equalTo("MY name.txt")).
                 and().
@@ -66,20 +61,16 @@ public class GoogleDriveApiTests extends BaseTest {
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
                 body("{\n" + "  \"name\": \"MY name.txt\"}").
-                log().
-                all().
                 when().
-                post("https://www.googleapis.com/drive/v3/files").
+                post().
                 jsonPath().
                 getString("id");
         //delete file
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
-                log().
-                all().
                 when().
-                delete("https://www.googleapis.com/drive/v3/files/" + fileId).
+                delete(fileId).
                 then().
                 statusCode(204);
     }
@@ -91,20 +82,16 @@ public class GoogleDriveApiTests extends BaseTest {
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
                 body("{\n" + "  \"name\": \"MY name.txt\"}").
-                log().
-                all().
                 when().
-                post("https://www.googleapis.com/drive/v3/files").
+                post().
                 jsonPath().
                 getString("id");
         //copy file
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
-                log().
-                all().
                 when().
-                post("https://www.googleapis.com/drive/v3/files/" + fileId + "/copy").
+                post(fileId + "/copy").
                 then().
                 body("name", equalTo("MY name.txt")).
                 and().
@@ -118,20 +105,16 @@ public class GoogleDriveApiTests extends BaseTest {
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
                 body("{\n" + "  \"name\": \"MY name.txt\"}").
-                log().
-                all().
                 when().
-                post("https://www.googleapis.com/drive/v3/files").
+                post().
                 jsonPath().
                 getString("id");
         //update file
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
-                log().
-                all().
                 when().
-                patch("https://www.googleapis.com/drive/v3/files/" + fileId).
+                patch(fileId).
                 then().
                 body("id", equalTo(fileId)).
                 and().
@@ -146,36 +129,29 @@ public class GoogleDriveApiTests extends BaseTest {
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
                 body("{\n" + "  \"name\": \"MY name.txt\"}").
-                log().
-                all().
                 when().
-                post("https://www.googleapis.com/drive/v3/files").
+                post().
                 jsonPath().
                 getString("id");
         //get file
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
-                log().
-                all().
                 when().
-                get("https://www.googleapis.com/drive/v3/files/" + fileId).
+                get(fileId).
                 then().
                 body("id", equalTo(fileId)).
                 and().
                 statusCode(200);
     }
 
-
     @Test
     public void getList() {
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
-                log().
-                all().
                 when().
-                get("https://www.googleapis.com/drive/v3/files").
+                get().
                 then().
                 statusCode(200);
     }
@@ -185,10 +161,8 @@ public class GoogleDriveApiTests extends BaseTest {
         given().
                 spec(RestAssuredSpecifications.spec().
                         headers(UploadParameters.getHeaderParameters(TOKEN))).
-                log().
-                all().
                 when().
-                delete("https://www.googleapis.com/drive/v3/files/trash").
+                delete("trash").
                 then().
                 statusCode(204);
     }

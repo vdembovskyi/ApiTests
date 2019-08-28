@@ -17,7 +17,7 @@ public class RestAssuredSpecifications {
                 setConfig(restAssuredConfig).
                 build(), new ResponseSpecBuilder().
                 build()).
-                getRequestSpecification();
+                getRequestSpecification().log().all();
 
         return s;
     }

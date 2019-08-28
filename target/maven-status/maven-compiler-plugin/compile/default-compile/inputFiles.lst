@@ -1,1 +1,8 @@
-/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/ApiTests.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/restClient/TestConfigData.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/parameters/TokenParameters.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/models/ExpectedToken.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/models/Credentials.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/parameters/UploadParameters.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/restClient/RestAssuredSpecifications.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/restClient/GDRestClient.java
+/home/v.dembovskyi/JavaPrograms/googleDriveTests/src/main/java/parameters/AccessCodeParameters.java
